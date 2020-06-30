@@ -33,7 +33,7 @@ from __future__ import print_function
 import itertools
 import numpy as np
 
-from open_spiel.python.algorithms.psro_variations import abstract_meta_trainer
+from open_spiel.python.algorithms.psro_variations import abstract_meta_trainer_dpp
 from open_spiel.python.algorithms.psro_variations import cond_k_dpp_solver
 from open_spiel.python.policy import TabularPolicy
 
@@ -42,7 +42,7 @@ from open_spiel.python.policy import TabularPolicy
 EPSILON_MIN_POSITIVE_PROBA = 1e-6
 
 
-class RNRSolver(abstract_meta_trainer.AbstractMetaTrainer):
+class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
   """An implementation of (Rectified) Nash Response (RNR).
 
   RNR is Algorithm 4 in (Balduzzi, 2019, "Open-ended Learning in Symmetric
