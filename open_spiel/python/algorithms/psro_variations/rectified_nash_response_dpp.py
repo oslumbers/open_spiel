@@ -112,6 +112,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
 
   def _initialize_game_state(self):
     self._meta_games = np.zeros((1, 1))
+    self._training_meta_games = np.zeros((1,1))
 
   def update_agents(self):
     """Updates each agent using the oracle."""
