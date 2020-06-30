@@ -186,7 +186,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
     meta_games = np.full((total_number_policies, total_number_policies), np.nan)
 
     # Filling the matrix with already-known values.
-    meta_games[:num_older_policies, :num_older_policies] = self._training_meta_games
+    meta_games[:num_older_policies, :num_older_policies] = self._meta_games
 
     # Filling the matrix for newly added policies.
     for i, j in itertools.product(
