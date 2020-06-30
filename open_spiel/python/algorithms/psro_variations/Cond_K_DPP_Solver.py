@@ -39,6 +39,7 @@ def conditional_k_dpp(meta_game, pop_size):
 
     #generate the L matrix
     L = linear_kernel(meta_game_normalised)
+    print(L)
 
     #Generate the inner term
     L_inner = inner_term(L, current_popn)
