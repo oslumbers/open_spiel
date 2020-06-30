@@ -250,7 +250,7 @@ class EvolutionaryStrategyOracleDPP(AbstractOracle):
     self._alpha = alpha
     self._beta = beta
     self._n_evolution_tests = n_evolution_tests
-    super(EvolutionaryStrategyOracle, self).__init__(**kwargs)
+    super(EvolutionaryStrategyOracleDPP, self).__init__(**kwargs)
 
   def __call__(self, game, pol, total_policies, current_player,
                probabilities_of_playing_policies,
