@@ -282,4 +282,4 @@ class EvolutionaryStrategyOracleDPP(AbstractOracle):
         new_policy = pol.copy_with_noise(alpha=self._alpha, beta=self._beta)
         self._new_policies.append(new_policy)
 
-    return best_policy
+    return self._new_policies
