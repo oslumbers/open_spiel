@@ -246,7 +246,7 @@ class EvolutionaryStrategyOracle(AbstractOracle):
 class EvolutionaryStrategyOracleDPP(AbstractOracle):
   """Oracle using evolutionary strategies to compute BR to policies."""
 
-  def __init__(self, alpha=0.1, beta=10, n_evolution_tests=30, **kwargs):
+  def __init__(self, alpha=0.1, beta=10, n_evolution_tests=10, **kwargs):
     self._alpha = alpha
     self._beta = beta
     self._n_evolution_tests = n_evolution_tests
