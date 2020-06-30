@@ -22,15 +22,13 @@ def inner_term(kernel, current_popn):
 
 def outer_term(indices, kernel):
 
-    print(kernel)
-
     #Indices should be a list of the training population elements
 
     return np.linalg.inv(kernel[np.ix_(indices, indices)])
 
 def conditional_k_dpp(meta_game, pop_size):
 
-    total_popn = list(range(meta_game.shape[0]))
+    total_popn = list(range(np.array(meta_game).shape[0]))
     current_popn = list(range(pop_size))
     training_popn = [x for x in total_popn if x not in current_popn]
 
@@ -39,7 +37,6 @@ def conditional_k_dpp(meta_game, pop_size):
 
     #generate the L matrix
     L = linear_kernel(meta_game_normalised)
-    print(L)
 
     #Generate the inner term
     L_inner = inner_term(L, current_popn)
