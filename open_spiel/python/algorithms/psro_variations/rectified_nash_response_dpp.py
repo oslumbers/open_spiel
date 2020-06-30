@@ -126,7 +126,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
       used_policies = self._policies
 
     # Generate new policies via oracle function, and put them in a new list.
-    self._new_policies = self.oracle(
+    self._new_policies = self._oracle(
             self._game,
             used_policies[0], [None, self._policies],
             0, [None, self._meta_strategy_probabilities[0]],
