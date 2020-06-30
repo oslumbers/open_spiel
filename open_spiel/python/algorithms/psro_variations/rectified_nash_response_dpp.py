@@ -163,7 +163,6 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
       updated_policies = self._policies + [self._new_policies]
 
       print(interim_meta_game)
-      print(np.max(np.diagonal(cond_k_dpp)))
 
   def update_empirical_gamestate_training2(self, seed=None):
     """Given new agents in _new_policies, update meta_games through simulations.
