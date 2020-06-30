@@ -149,50 +149,50 @@ class AbstractOracle(object):
     # Avoid the 0 / 0 case.
     return totals / max(1, count)
 
- def evalute_policy_dpp(self, pol, total_policies, seed=None):
-   """Given new agents in _new_policies, update meta_games through simulations.
+     def evalute_policy_dpp(self, pol, total_policies, seed=None):
+       """Given new agents in _new_policies, update meta_games through simulations.
 
-   Args:
-     seed: Seed for environment generation.
+       Args:
+         seed: Seed for environment generation.
 
-   Returns:
-     Meta game payoff matrix.
-   """
-   if seed is not None:
-     np.random.seed(seed=seed)
-   assert self._oracle is not None
+       Returns:
+         Meta game payoff matrix.
+       """
+       if seed is not None:
+         np.random.seed(seed=seed)
+       assert self._oracle is not None
 
-   # Concatenate both lists.
-   updated_policies = self._policies + self._new_policies
+       # Concatenate both lists.
+       updated_policies = self._policies + self._new_policies
 
-   # Each metagame will be (num_strategies)^self._num_players.
-   # There are self._num_player metagames, one per player.
-   total_number_policies = len(updated_policies)
-   num_older_policies = len(self._policies)
-   number_new_policies = len(self._new_policies)
+       # Each metagame will be (num_strategies)^self._num_players.
+       # There are self._num_player metagames, one per player.
+       total_number_policies = len(updated_policies)
+       num_older_policies = len(self._policies)
+       number_new_policies = len(self._new_policies)
 
-   # Initializing the matrix with nans to recognize unestimated states.
-   meta_games = np.full((total_number_policies, total_number_policies), np.nan)
+       # Initializing the matrix with nans to recognize unestimated states.
+       meta_games = np.full((total_number_policies, total_number_policies), np.nan)
 
-   # Filling the matrix with already-known values.
-   meta_games[:num_older_policies, :num_older_policies] = self._meta_games
+       # Filling the matrix with already-known values.
+       meta_games[:num_older_policies, :num_older_policies] = self._meta_games
 
-   # Filling the matrix for newly added policies.
-   for i, j in itertools.product(
-       range(number_new_policies), range(total_number_policies)):
-     if i + num_older_policies == j:
-       meta_games[j, j] = 0
-     elif np.isnan(meta_games[i + num_older_policies, j]):
-       utility_estimate = self.sample_episodes(
-           (self._new_policies[i], updated_policies[j]),
-           self._sims_per_entry)[0]
-       meta_games[i + num_older_policies, j] = utility_estimate
-       # 0 sum game
-       meta_games[j, i + num_older_policies] = -utility_estimate
+       # Filling the matrix for newly added policies.
+       for i, j in itertools.product(
+           range(number_new_policies), range(total_number_policies)):
+         if i + num_older_policies == j:
+           meta_games[j, j] = 0
+         elif np.isnan(meta_games[i + num_older_policies, j]):
+           utility_estimate = self.sample_episodes(
+               (self._new_policies[i], updated_policies[j]),
+               self._sims_per_entry)[0]
+           meta_games[i + num_older_policies, j] = utility_estimate
+           # 0 sum game
+           meta_games[j, i + num_older_policies] = -utility_estimate
 
-   self._meta_games = meta_games
-   self._policies = updated_policies
-   return meta_games
+       self._meta_games = meta_games
+       self._policies = updated_policies
+       return meta_games
 
 
 
