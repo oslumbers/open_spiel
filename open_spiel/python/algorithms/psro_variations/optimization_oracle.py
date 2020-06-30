@@ -149,6 +149,52 @@ class AbstractOracle(object):
     # Avoid the 0 / 0 case.
     return totals / max(1, count)
 
+ def evalute_policy_dpp(self, seed=None):
+   """Given new agents in _new_policies, update meta_games through simulations.
+
+   Args:
+     seed: Seed for environment generation.
+
+   Returns:
+     Meta game payoff matrix.
+   """
+   if seed is not None:
+     np.random.seed(seed=seed)
+   assert self._oracle is not None
+
+   # Concatenate both lists.
+   updated_policies = self._policies + self._new_policies
+
+   # Each metagame will be (num_strategies)^self._num_players.
+   # There are self._num_player metagames, one per player.
+   total_number_policies = len(updated_policies)
+   num_older_policies = len(self._policies)
+   number_new_policies = len(self._new_policies)
+
+   # Initializing the matrix with nans to recognize unestimated states.
+   meta_games = np.full((total_number_policies, total_number_policies), np.nan)
+
+   # Filling the matrix with already-known values.
+   meta_games[:num_older_policies, :num_older_policies] = self._meta_games
+
+   # Filling the matrix for newly added policies.
+   for i, j in itertools.product(
+       range(number_new_policies), range(total_number_policies)):
+     if i + num_older_policies == j:
+       meta_games[j, j] = 0
+     elif np.isnan(meta_games[i + num_older_policies, j]):
+       utility_estimate = self.sample_episodes(
+           (self._new_policies[i], updated_policies[j]),
+           self._sims_per_entry)[0]
+       meta_games[i + num_older_policies, j] = utility_estimate
+       # 0 sum game
+       meta_games[j, i + num_older_policies] = -utility_estimate
+
+   self._meta_games = meta_games
+   self._policies = updated_policies
+   return meta_games
+
+
 
 class EvolutionaryStrategyOracle(AbstractOracle):
   """Oracle using evolutionary strategies to compute BR to policies."""
@@ -193,5 +239,51 @@ class EvolutionaryStrategyOracle(AbstractOracle):
       if new_value > max_perf:
         max_perf = new_value
         best_policy = new_policy
+
+    return best_policy
+
+
+class EvolutionaryStrategyOracleDPP(AbstractOracle):
+  """Oracle using evolutionary strategies to compute BR to policies."""
+
+  def __init__(self, alpha=0.1, beta=10, n_evolution_tests=30, **kwargs):
+    self._alpha = alpha
+    self._beta = beta
+    self._n_evolution_tests = n_evolution_tests
+    super(EvolutionaryStrategyOracle, self).__init__(**kwargs)
+
+  def __call__(self, game, pol, total_policies, current_player,
+               probabilities_of_playing_policies,
+               **oracle_specific_execution_kwargs):
+    """Call method for oracle, returns best response against a set of policies.
+
+    Args:
+      game: The game on which the optimization process takes place.
+      pol: The current policy, in policy.Policy, from which we wish to start
+        optimizing.
+      total_policies: A list of all policy.Policy strategies used for training,
+        including the one for the current player.
+      current_player: Integer representing the current player.
+      probabilities_of_playing_policies: A list of arrays representing, per
+        player, the probabilities of playing each policy in total_policies for
+        the same player.
+      **oracle_specific_execution_kwargs: Other set of arguments, for
+        compatibility purposes. Can for example represent whether to Rectify
+        Training or not.
+
+    Returns:
+      Expected (Epsilon) best response.
+    """
+    max_perf = -np.infty
+    best_policy = None
+    # Easy to multithread, but this is python.
+    for _ in range(self._n_evolution_tests):
+        new_policy = pol.copy_with_noise(alpha=self._alpha, beta=self._beta)
+        new_value = self.evaluate_policy(game, new_policy, total_policies,
+                                       current_player,
+                                       probabilities_of_playing_policies,
+                                       **oracle_specific_execution_kwargs)
+
+        new_meta_game =
 
     return best_policy
