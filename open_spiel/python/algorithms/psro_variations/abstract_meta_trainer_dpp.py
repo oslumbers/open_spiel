@@ -200,7 +200,6 @@ class AbstractMetaTrainer(object):
     self._iterations += 1
     self.update_meta_strategies()  # Compute nash equilibrium.
     self.update_agents_training()
-    print("hi") # Generate new, Best Response agents via oracle.
     self.update_empirical_gamestate_training(seed=seed)
     self.optimal_agent()
     self.update_empirical_gamestate(seed=seed)  # Update gamestate matrix.
