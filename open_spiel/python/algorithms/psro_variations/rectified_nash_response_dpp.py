@@ -155,12 +155,9 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
   def optimal_agent(self):
       interim_meta_game = self._training_meta_games
 
-      print(self._iterations)
-
       cond_k_dpp = cond_k_dpp_solver.conditional_k_dpp(interim_meta_game, self._iterations)
 
       optimal_agent_id = np.argmax(np.diagonal(cond_k_dpp))
-      print(np.diagonal(cond_k_dpp))
       self._new_policies = [self._training_policies[optimal_agent_id]]
 
   def update_empirical_gamestate_training(self, seed=None):
