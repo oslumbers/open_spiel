@@ -22,6 +22,8 @@ def inner_term(kernel, current_popn):
 
 def outer_term(indices, kernel):
 
+    print(kernel)
+
     #Indices should be a list of the training population elements
 
     return np.linalg.inv(kernel[np.ix_(indices, indices)])
