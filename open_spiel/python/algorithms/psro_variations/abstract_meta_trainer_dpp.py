@@ -202,7 +202,7 @@ class AbstractMetaTrainer(object):
     self.update_agents_training()
     self.update_empirical_gamestate_training(seed=seed)
     self.optimal_agent()
-    self.update_empirical_gamestate_training2(seed=seed)  # Update gamestate matrix.
+    self.update_empirical_gamestate2(seed=seed)  # Update gamestate matrix.
 
   def update_meta_strategies(self):
     self._meta_strategy_probabilities = self._meta_strategy_method(self)
