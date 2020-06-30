@@ -149,7 +149,7 @@ class AbstractOracle(object):
     # Avoid the 0 / 0 case.
     return totals / max(1, count)
 
-     def evalute_policy_dpp(self, pol, total_policies, seed=None):
+    def evalute_policy_dpp(self, pol, total_policies, seed=None):
        """Given new agents in _new_policies, update meta_games through simulations.
 
        Args:
