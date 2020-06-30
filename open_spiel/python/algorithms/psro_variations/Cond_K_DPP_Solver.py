@@ -3,7 +3,7 @@ import numpy as np
 from sklearn import preprocessing
 from sklearn.metrics.pairwise import linear_kernel
 
-from dppy.finite_dpps import FiniteDPP
+#from dppy.finite_dpps import FiniteDPP
 
 def indexed_identity(indices, kernel):
 
