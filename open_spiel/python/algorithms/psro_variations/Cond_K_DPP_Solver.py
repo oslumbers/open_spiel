@@ -1,4 +1,3 @@
-from numpy.random import RandomState
 import numpy as np
 from sklearn import preprocessing
 from sklearn.metrics.pairwise import linear_kernel
