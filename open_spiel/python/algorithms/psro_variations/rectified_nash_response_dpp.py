@@ -162,6 +162,8 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
 
       updated_policies = self._policies + [self._new_policies]
 
+      print("hi")
+
       print(interim_meta_game)
       print(np.max(np.diagonal(cond_k_dpp)))
 
