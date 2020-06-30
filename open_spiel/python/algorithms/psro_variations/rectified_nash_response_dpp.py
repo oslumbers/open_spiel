@@ -126,14 +126,11 @@ class RNRSolver(abstract_meta_trainer.AbstractMetaTrainer):
       used_policies = self._policies
 
     # Generate new policies via oracle function, and put them in a new list.
-    self._new_policies = []
-    for pol in used_policies:
-      new_policy = self._oracle(
-          self._game,
-          pol, [None, self._policies],
-          0, [None, self._meta_strategy_probabilities[0]],
-          rectify_training=self._rectify_training)
-      self._new_policies.append(new_policy)
+    self._new_policies = self.oracle(
+            self._game,
+            used_policies[0], [None, self._policies],
+            0, [None, self._meta_strategy_probabilities[0]],
+            rectify_training=self._rectify_training)
 
   def update_empirical_gamestate(self, seed=None):
     """Given new agents in _new_policies, update meta_games through simulations.

@@ -149,7 +149,7 @@ class AbstractOracle(object):
     # Avoid the 0 / 0 case.
     return totals / max(1, count)
 
- def evalute_policy_dpp(self, seed=None):
+ def evalute_policy_dpp(self, pol, total_policies, seed=None):
    """Given new agents in _new_policies, update meta_games through simulations.
 
    Args:
@@ -276,14 +276,10 @@ class EvolutionaryStrategyOracleDPP(AbstractOracle):
     """
     max_perf = -np.infty
     best_policy = None
+    self._new_policies = []
     # Easy to multithread, but this is python.
     for _ in range(self._n_evolution_tests):
         new_policy = pol.copy_with_noise(alpha=self._alpha, beta=self._beta)
-        new_value = self.evaluate_policy(game, new_policy, total_policies,
-                                       current_player,
-                                       probabilities_of_playing_policies,
-                                       **oracle_specific_execution_kwargs)
-
-        new_meta_game =
+        self._new_policies.append(new_policy)
 
     return best_policy
