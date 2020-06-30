@@ -199,9 +199,9 @@ class AbstractMetaTrainer(object):
   def iteration(self, seed=None):
     self._iterations += 1
     self.update_meta_strategies()  # Compute nash equilibrium.
-    self.update_agents_training()
-    self.update_empirical_gamestate_training(seed=seed)
-    self.optimal_agent()
+    self.update_agents_training() # Create new evolved agents
+    self.update_empirical_gamestate_training(seed=seed) #Simulate the training, returning the interim meta-game of sampled episodes
+    self.optimal_agent() #Pick the optimal new agents
     self.update_empirical_gamestate(seed=seed)  # Update gamestate matrix.
 
   def update_meta_strategies(self):
