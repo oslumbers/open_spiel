@@ -308,13 +308,10 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
 
   def optimal_agent(self):
       interim_meta_game = self._training_meta_games
-      print(interim_meta_game)
 
       cond_k_dpp = cond_k_dpp_solver.conditional_k_dpp(interim_meta_game, self._iterations)
-      #print("cond dpp {}".format(cond_k_dpp))
 
       optimal_agent_id = np.argmax(np.diagonal(cond_k_dpp))
-      print("optimal kdpp value {}".format(np.max(np.diagonal(cond_k_dpp))))
       self._optimal_agent_meta_row = interim_meta_game[optimal_agent_id + self._iterations, :self._iterations]
       self._new_policies = [self._training_policies[optimal_agent_id]]
 
