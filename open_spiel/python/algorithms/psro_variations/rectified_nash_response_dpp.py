@@ -219,7 +219,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
         # There are self._num_player metagames, one per player.
         total_number_policies = len(updated_policies)
         num_older_policies = len(self._policies)
-        number_new_policies = len(self._training_policies)
+        number_new_policies = 1
 
         # Initializing the matrix with nans to recognize unestimated states.
         meta_games = np.full((total_number_policies, total_number_policies), np.nan)
