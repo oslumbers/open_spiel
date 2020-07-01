@@ -210,7 +210,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
     agent_data = []
     agent_id = -1
     for pol in self._training_policies:
-        print(agent_id)
+        print("agent_id".format(agent_id))
         agent_id += 1
         # Concatenate both lists.
         updated_policies = self._policies + pol
