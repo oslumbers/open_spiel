@@ -258,6 +258,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
     print(agent_data)
     cond_k_dpp = cond_k_dpp_solver.conditional_k_dpp(training_meta_game, self._iterations)
     optimal_agent_id = np.argmax(np.diagonal(cond_k_dpp))
+    print("optimal agent {}".format(optimal_agent_id))
     self._optimal_agent = agent_data[optimal_agent_id]
 
     self._new_policies = [self._training_policies[optimal_agent_id]]
@@ -289,7 +290,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
 
     # Filling the matrix with already-known values.
     meta_games[:num_older_policies, :num_older_policies] = self._meta_games
-    meta_games[-1] = np.append(self._optimal_agent[2], np.nan)
+    meta_games[-1] = np.append(self._optimal_agent[1], np.nan)
 
     for i in range(num_older_policies):
         meta_games[i, -1] = meta_games[-1, i]
