@@ -210,7 +210,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
     agent_data = []
     agent_id = -1
     for pol in self._training_policies:
-        print("agent_id hi".format(agent_id))
+        print("agent_id {} hi".format(agent_id))
         agent_id += 1
         # Concatenate both lists.
         updated_policies = self._policies + [pol]
@@ -247,6 +247,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
         meta_row = self._training_meta_games[-1, :]
 
         agent_data.append([(agent_id, fitness_value, meta_row)])
+    print(agent_data)
 
     self._optimal_agent = max(agent_data, key=lambda item:item[1])
 
