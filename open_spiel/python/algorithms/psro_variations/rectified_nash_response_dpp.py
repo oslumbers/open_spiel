@@ -209,7 +209,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
     assert self._oracle is not None
 
     if self._iterations == 1:
-        training_meta_game = np.array([0])
+        training_meta_game = np.array([np.random.normal(0,0.001,1)[0]])
     else:
         training_meta_game = self._meta_games
 
