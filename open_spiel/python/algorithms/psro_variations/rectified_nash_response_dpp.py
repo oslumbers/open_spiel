@@ -295,7 +295,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
 
     # Filling the matrix with already-known values.
     meta_games[:num_older_policies, :num_older_policies] = self._meta_games
-    meta_games[-1] = np.append(self._optimal_agent_meta_row[1], np.nan)
+    meta_games[-1] = np.append(self._optimal_agent_meta_row, np.nan)
 
     for i in range(num_older_policies):
         meta_games[i, -1] = -meta_games[-1, i]
