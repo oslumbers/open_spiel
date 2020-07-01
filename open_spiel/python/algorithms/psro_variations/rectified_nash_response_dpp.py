@@ -256,13 +256,14 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
         agent_data.append((agent_id, meta_row))
 
     print(agent_data)
+    print(training_meta_game)
     if self._iterations == 1:
         optimal_agent_id = max(agent_data,key=lambda item:item[0])
     cond_k_dpp = cond_k_dpp_solver.conditional_k_dpp(training_meta_game, self._iterations)
-    print(cond_k_dpp)
+    #print(cond_k_dpp)
     optimal_agent_id = np.argmax(np.diagonal(cond_k_dpp))
-    print("optimal value {}".format(np.max(np.diagonal(cond_k_dpp))))
-    print("optimal agent {}".format(optimal_agent_id))
+    #print("optimal value {}".format(np.max(np.diagonal(cond_k_dpp))))
+    #print("optimal agent {}".format(optimal_agent_id))
     self._optimal_agent = agent_data[optimal_agent_id]
 
     self._new_policies = [self._training_policies[optimal_agent_id]]
