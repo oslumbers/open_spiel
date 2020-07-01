@@ -277,6 +277,7 @@ class EvolutionaryStrategyOracleDPP(AbstractOracle):
     max_perf = -np.infty
     best_policy = None
     self._new_policies = []
+
     # Easy to multithread, but this is python.
     for _ in range(self._n_evolution_tests):
         new_policy = pol.copy_with_noise(alpha=self._alpha, beta=self._beta)

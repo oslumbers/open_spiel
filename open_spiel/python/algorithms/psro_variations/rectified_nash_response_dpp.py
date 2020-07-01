@@ -195,6 +195,100 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
 
     self._training_meta_games = meta_games
 
+  def update_empirical_gamestate_training_test(self, seed=None):
+    """Given new agents in _new_policies, update meta_games through simulations.
+
+    Args:
+      seed: Seed for environment generation.
+
+    Returns:
+      Meta game payoff matrix.
+    """
+    if seed is not None:
+      np.random.seed(seed=seed)
+    assert self._oracle is not None
+    agent_data = []
+    agent_id = -1
+    for pol in self._training_policies:
+        agent_id += 1
+        # Concatenate both lists.
+        updated_policies = self._policies + pol
+
+        # Each metagame will be (num_strategies)^self._num_players.
+        # There are self._num_player metagames, one per player.
+        total_number_policies = len(updated_policies)
+        num_older_policies = len(self._policies)
+        number_new_policies = len(self._training_policies)
+
+        # Initializing the matrix with nans to recognize unestimated states.
+        meta_games = np.full((total_number_policies, total_number_policies), np.nan)
+
+        # Filling the matrix with already-known values.
+        meta_games[:num_older_policies, :num_older_policies] = self._meta_games
+
+        # Filling the matrix for newly added policies.
+        for i, j in itertools.product(
+            range(number_new_policies), range(total_number_policies)):
+          if i + num_older_policies == j:
+            meta_games[j, j] = 0
+          elif np.isnan(meta_games[i + num_older_policies, j]):
+            utility_estimate = self.sample_episodes(
+                (self._training_policies[i], updated_policies[j]),
+                self._sims_per_entry)[0]
+            meta_games[i + num_older_policies, j] = utility_estimate
+            # 0 sum game
+            meta_games[j, i + num_older_policies] = -utility_estimate
+
+        self._training_meta_games = meta_games
+
+        cond_k_dpp = cond_k_dpp_solver.conditional_k_dpp(self._training_meta_games, self._iterations)
+        fitness_value = cond_k_dpp[0][0]
+        meta_row = self._training_meta_games[-1, :]
+
+        agent_data.append([(agent_id, fitness_value, meta_row)])
+
+    self._optimal_agent = max(agent_data, key=lambda item:item[1])
+
+    self._new_policies = [self._training_policies[self._optimal_agent[0]]]
+
+  def update_empirical_gamestate2(self, seed=None):
+    """Given new agents in _new_policies, update meta_games through simulations.
+
+    Args:
+      seed: Seed for environment generation.
+
+    Returns:
+      Meta game payoff matrix.
+    """
+    if seed is not None:
+      np.random.seed(seed=seed)
+    assert self._oracle is not None
+
+    # Concatenate both lists.
+    updated_policies = self._policies + self._new_policies
+
+    # Each metagame will be (num_strategies)^self._num_players.
+    # There are self._num_player metagames, one per player.
+    total_number_policies = len(updated_policies)
+    num_older_policies = len(self._policies)
+    number_new_policies = len(self._new_policies)
+
+    # Initializing the matrix with nans to recognize unestimated states.
+    meta_games = np.full((total_number_policies, total_number_policies), np.nan)
+
+    # Filling the matrix with already-known values.
+    meta_games[:num_older_policies, :num_older_policies] = self._meta_games
+    meta_games[-1] = self._optimal_agent[2]
+
+    for i in range(num_older_policies):
+        meta_games[i, -1] = meta_games[-1, i]
+
+    meta_games[-1,-1] = 0
+
+    self._meta_games = meta_games
+    self._policies = updated_policies
+    return meta_games
+
   def optimal_agent(self):
       interim_meta_game = self._training_meta_games
 
