@@ -213,7 +213,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
         print("agent_id hi".format(agent_id))
         agent_id += 1
         # Concatenate both lists.
-        updated_policies = self._policies + pol
+        updated_policies = self._policies + [pol]
 
         # Each metagame will be (num_strategies)^self._num_players.
         # There are self._num_player metagames, one per player.
