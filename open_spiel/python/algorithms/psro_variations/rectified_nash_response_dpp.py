@@ -298,7 +298,7 @@ class RNRSolver(abstract_meta_trainer_dpp.AbstractMetaTrainer):
     meta_games[-1] = np.append(self._optimal_agent[1], np.nan)
 
     for i in range(num_older_policies):
-        meta_games[i, -1] = meta_games[-1, i]
+        meta_games[i, -1] = -meta_games[-1, i]
 
     meta_games[-1,-1] = 0
 
