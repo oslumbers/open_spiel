@@ -131,15 +131,16 @@ def rl_policy_factory(rl_class):
 
     def copy_with_noise(self, sigma=0.0):
       copied_object = RLPolicy.__new__(RLPolicy)
+      copied_policy, gaussian noise = self._policy.copy_with_noise(sigma=sigma)
       super(RLPolicy, copied_object).__init__(self.game, self.player_ids)
       setattr(copied_object, "_rl_class", self._rl_class)
       setattr(copied_object, "_obs", self._obs)
       setattr(copied_object, "_policy",
-              self._policy.copy_with_noise(sigma=sigma))
+              copied_policy)
       setattr(copied_object, "_env", self._env)
       copied_object.unfreeze()
 
-      return copied_object
+      return copied_object, gaussian_noise
 
   return RLPolicy
 
