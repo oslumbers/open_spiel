@@ -452,6 +452,8 @@ class DQN(rl_agent.AbstractAgent):
 
     self._gaussian_noise = tf.random.normal(self._q_network.variables.shape)
 
+    print([vb.shape for va,vb in zip(q_network.variables, self._q_network.variables)])
+
     if copy_weights:
       copy_weights = tf.group(*[
           va.assign(vb + sigma * tf.random.normal(vb.shape))
