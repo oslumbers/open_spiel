@@ -451,7 +451,7 @@ class DQN(rl_agent.AbstractAgent):
 
     if copy_weights:
       copy_weights = tf.group(*[
-          va.assign(vb * (1 + sigma * tf.random.normal(vb.shape)))
+          va.assign(vb + sigma * tf.random.normal(vb.shape))
           for va, vb in zip(q_network.variables, self._q_network.variables)
       ])
       self._session.run(copy_weights)
