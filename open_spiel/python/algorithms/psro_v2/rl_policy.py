@@ -136,11 +136,11 @@ def rl_policy_factory(rl_class):
       setattr(copied_object, "_rl_class", self._rl_class)
       setattr(copied_object, "_obs", self._obs)
       setattr(copied_object, "_policy",
-              copied_policy)
+              self._policy.copy_with_noise(sigma=sigma))
       setattr(copied_object, "_env", self._env)
       copied_object.unfreeze()
 
-      return copied_object, gaussian_noise
+      return copied_object
 
   return RLPolicy
 
