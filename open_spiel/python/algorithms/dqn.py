@@ -467,5 +467,7 @@ class DQN(rl_agent.AbstractAgent):
       self._session.run(copy_target_weights)
     return copied_object, gaussian_noise
 
+
+    @property
     def return_noise(self):
         return self._gaussian_noise
