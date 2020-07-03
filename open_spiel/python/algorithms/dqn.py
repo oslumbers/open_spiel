@@ -450,7 +450,7 @@ class DQN(rl_agent.AbstractAgent):
     q_network = getattr(copied_object, "_q_network")
     target_q_network = getattr(copied_object, "_target_q_network")
 
-    self._gaussian_noise = tf.random.normal(self._q_network.variables.shape)
+    #self._gaussian_noise = tf.random.normal(self._q_network.variables.shape)
 
     print([vb.shape for va,vb in zip(q_network.variables, self._q_network.variables)])
 
