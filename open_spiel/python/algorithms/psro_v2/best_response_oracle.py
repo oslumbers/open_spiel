@@ -30,7 +30,7 @@ class BestResponseOracle(optimization_oracle.AbstractOracle):
   """Oracle using exact best responses to compute BR to policies."""
 
   def __init__(self,
-               best_response_backend='cpp',
+               best_response_backend='py',
                game=None,
                all_states=None,
                state_to_information_state=None,
