@@ -30,7 +30,7 @@ class BestResponseOracle(optimization_oracle.AbstractOracle):
   """Oracle using exact best responses to compute BR to policies."""
 
   def __init__(self,
-               best_response_backend='py',
+               best_response_backend='cpp',
                game=None,
                all_states=None,
                state_to_information_state=None,
@@ -137,7 +137,7 @@ class BestResponseOracle(optimization_oracle.AbstractOracle):
         # through the game tree. At information states involving other players
         # or chance, the aggr_policy is used to compute the expected value, such
         # that a best response for current_player can be computed.
-        if self.best_response_backend == 'cpp':
+        if self.best_response_backend == 'py':
           best_resp = best_response.BestResponsePolicy(game, current_player,
                                                        aggr_policy)
 
