@@ -137,10 +137,10 @@ class BestResponseOracle(optimization_oracle.AbstractOracle):
         # through the game tree. At information states involving other players
         # or chance, the aggr_policy is used to compute the expected value, such
         # that a best response for current_player can be computed.
-        if self.best_response_backend == 'py':
+        if self.best_response_backend == 'cpp':
           best_resp = best_response.BestResponsePolicy(game, current_player,
                                                        aggr_policy)
-                                                      
+
         else:
           self.best_response_processors[current_player].set_policy(
               policy_utils.policy_to_dict(aggr_policy, game, self.all_states,
