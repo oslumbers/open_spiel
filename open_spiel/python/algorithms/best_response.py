@@ -146,7 +146,6 @@ class BestResponsePolicy(openspiel_policy.Policy):
     infoset = self.infosets[infostate]
     # Get actions from the first (state, cf_prob) pair in the infoset list.
     # Return the best action by counterfactual-reach-weighted state-value.
-    print(infoset[0][0].legal_actions(), key=lambda a: sum(cf_p*self.q_value(s,a) for s, cf_p in infoset))
     return max(
         infoset[0][0].legal_actions(),
         key=lambda a: sum(cf_p * self.q_value(s, a) for s, cf_p in infoset))
