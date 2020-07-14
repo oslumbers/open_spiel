@@ -164,7 +164,7 @@ class BestResponsePolicy(openspiel_policy.Policy):
     """
     if player_id is None:
       player_id = state.current_player()
-    print({self.best_response_action(state.information_state_string(player_id)): 1})
+    #print({self.best_response_action(state.information_state_string(player_id)): 1})
     return {
         self.best_response_action(state.information_state_string(player_id)): 1
     }

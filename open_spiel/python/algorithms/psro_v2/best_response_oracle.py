@@ -140,6 +140,7 @@ class BestResponseOracle(optimization_oracle.AbstractOracle):
         if self.best_response_backend == 'py':
           best_resp = best_response.BestResponsePolicy(game, current_player,
                                                        aggr_policy)
+                                                      
         else:
           self.best_response_processors[current_player].set_policy(
               policy_utils.policy_to_dict(aggr_policy, game, self.all_states,
@@ -152,5 +153,6 @@ class BestResponseOracle(optimization_oracle.AbstractOracle):
                   self.best_response_processors[current_player])
           best_resp = self.best_responders[current_player]
         player_policies.append(best_resp)
+        print(best_resp)
       new_policies.append(player_policies)
     return new_policies
